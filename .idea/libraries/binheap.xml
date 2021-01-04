@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="binheap">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../binheap.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
