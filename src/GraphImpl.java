@@ -21,8 +21,8 @@ public class GraphImpl implements Graph{
         return graph[v][i];//einfahc v+i zu returnen wäre einfach den v+i ten Knoten zurückgeben und nicht den i ten Nachfolger
     }
 
-    @Override
-    public Graph transpose() {
+
+    private int[][] transposeArray(){
         ArrayList<Integer>[] arrayLists= new ArrayList[graph.length];
         for(int i=0;i<graph.length;i++){
             arrayLists[i]=new ArrayList<>();
@@ -39,24 +39,26 @@ public class GraphImpl implements Graph{
                 newg[i][j]=arrayLists[i].get(j);
             }
         }
-        /*for (int l = graph.length-1;l>=0;l--) {
-            if (graph[l].length == 0) {
-                continue;
-            }
-            Knotenswitch(l);
-        }
-        return null;*/
-        return new GraphImpl(newg);
+        return newg;
+    }
+    @Override
+    public Graph transpose() {
+        return new GraphImpl(transposeArray());
     }
 
-    /*public void Knotenswitch(int x) {
-        int deg = graph[x].length;
-        if (deg != 2) {
-            return;
+    /*public Graph graphANDtranpose(){
+        ArrayList<Integer>[] arrayLists= new ArrayList[graph.length];
+        for(int i=0;i<graph.length;i++){
+            arrayLists[i]=new ArrayList<>();
         }
-        int temp = graph[x][0];
-        graph[x][0] = graph[x][1];
-        graph[x][1] = temp;
-        return;
+        int[][] ret=new int[graph.length][];
+        int[][] trans=transposeArray();
+        for(int i=0;i< graph.length;i++){
+            for(int j=0;j<graph[i].length;j++)
+                arrayLists[i].add(graph[i][j]);
+        }
+        return new GraphImpl(ret);
     }*/
+
+
 }

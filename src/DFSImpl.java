@@ -1,8 +1,5 @@
-import sun.security.util.ArrayUtil;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class DFSImpl implements DFS{
 
@@ -51,7 +48,6 @@ public class DFSImpl implements DFS{
     }
 
     private int[] visited;//-1 not visited weiß 0 we are working with it grau 1 we are done so we visited schwarz
-    private int[] parent;
     private int[] entdeckung;
     private int[] abschluss;
     private int count;
@@ -61,12 +57,10 @@ public class DFSImpl implements DFS{
     private void searchinit(){
         count=1;
         topologisch=true;
-        parent=new int[g.size()];
         entdeckung=new int[g.size()];
         abschluss=new int[g.size()];
         visited=new int[g.size()];
-        for(int i=0;i<parent.length;i++){
-            parent[i]=-1;
+        for(int i=0;i<g.size();i++){
             entdeckung[i]=Integer.MAX_VALUE;
             abschluss[i]=Integer.MAX_VALUE;
             visited[i]=-1;//weiß
@@ -98,10 +92,8 @@ public class DFSImpl implements DFS{
                 topologisch=false;//nicht topologisch wegen Rückwärtskante!
                 //System.out.println("Zyklus bei "+v);
             }
-
             return;
         }
-
         visited[v]=0;//grau
         entdeckung[v]=count;
         count++;
@@ -149,4 +141,39 @@ public class DFSImpl implements DFS{
         }
         return  aASC[i];
     }
+
+    private int gruppenNr;
+    private int[] gruppen;
+    //Die eigentliche SCCImpl verwendet aber DFS also ist es hier praktischer
+    public int[] computeSCC(Graph g){
+        this.g=g;
+        DFS d=new DFSImpl();
+        d.search(g);
+        searchinit();
+        gruppenNr=1;
+        gruppen=new int[g.size()];
+        for(int i=g.size()-1;i>=0;i--){
+            fahreKnoten_gruppen(d.sequ(i));
+            gruppenNr++;
+        }
+        return gruppen;
+    }
+
+    private void fahreKnoten_gruppen(int v){
+        if(visited[v]>=0){
+            return;
+        }
+        visited[v]=0;//grau
+        entdeckung[v]=count;
+        gruppen[v]=gruppenNr;
+        count++;
+        for(int i=0;i<g.deg(v);i++){
+            fahreKnoten_gruppen(g.succ(v,i));
+        }
+        visited[v]=1;//schwarz
+        abschluss[v]=count;
+        count++;
+        return;
+    }
+
 }
