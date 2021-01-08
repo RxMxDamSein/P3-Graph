@@ -4,6 +4,8 @@ public class ZusatzMain {
                 { 1, 2 },	// Knoten 0 hat als Nachfolger Knoten 1 und 2.
                 { },	// Knoten 1 hat keine Nachfolger.
                 { 2 },	// Knoten 2 hat als Nachfolger sich selbst.
+                {1,2,3},
+                {0}
         });
 
         System.out.println("Size: "+g.size());
@@ -15,6 +17,18 @@ public class ZusatzMain {
         printGraph(g);
         Graph g2=g.transpose();
         printGraph((GraphImpl) g2);
+
+        WeightedGraphImpl wg=new WeightedGraphImpl(new int [] [] {
+                { 1, 2 },	// Knoten 0 hat als Nachfolger Knoten 1 und 2.
+                { },	// Knoten 1 hat keine Nachfolger.
+                { 2 }	// Knoten 2 hat als Nachfolger sich selbst.
+        }, new double [] [] {
+                { 1.5, 0 },	// Gewichte der Kanten (0, 1) und (0, 2).
+                { },
+                { -3.7 }	// Gewicht der Kante (2, 0).
+        });
+        printWeightedGraph(wg);
+        printGraph((GraphImpl) wg.transpose());
     }
 
     public static void printGraph(GraphImpl g) {
@@ -29,10 +43,17 @@ public class ZusatzMain {
         }
         System.out.println("_________________☻");
     }
-    static void printKonten(int indx,String parent,GraphImpl g) {
-        System.out.println(" "+parent+indx);
-        for (int i = 0;i<g.graph[indx].length;i++) {
-            printKonten(g.graph[indx][i],parent+" "+indx+" ->",g);
+    public static void printWeightedGraph(WeightedGraphImpl g) {
+        System.out.println("_________________☺");
+        System.out.println("Graph: ");
+        for (int i=0;i<g.graph.length;i++) {
+            System.out.print("Knoten "+i+": ");
+            for (int j=0;j<g.graph[i].length;j++) {
+                System.out.print(g.graph[i][j]+"("+g.weight[i][j]+") ");
+            }
+            System.out.println();
         }
+        System.out.println("_________________☻");
     }
+
 }

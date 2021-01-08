@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class GraphImpl implements Graph{
-    public int[][] graph;
+    protected int[][] graph;
     public GraphImpl(int[][] ints) {
         graph = ints;
     }
