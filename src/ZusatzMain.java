@@ -1,5 +1,6 @@
 public class ZusatzMain {
     public static void main(String[] args) {
+
         GraphImpl g = new GraphImpl(new int [] [] {
                 { 1, 2 },	// Knoten 0 hat als Nachfolger Knoten 1 und 2.
                 { },	// Knoten 1 hat keine Nachfolger.
