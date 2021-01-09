@@ -26,7 +26,7 @@ public class DFSImpl implements DFS{
             System.out.println("from "+0+" to "+i+" det: "+ dfs.det(i)+" fin: "+dfs.fin(i));
         }
         for(int i=0;i< g.size();i++){
-            System.out.println("Abschluss "+i+" "+dfs.sequ(i));
+            System.out.println("Abschluss "+i+" "+dfs.sequ(i)+" "+dfs.fin(dfs.sequ(i)));
         }
         DFS dfs2=new DFSImpl();
         dfs2.search(g,dfs);
@@ -34,7 +34,7 @@ public class DFSImpl implements DFS{
             System.out.println("from "+dfs.sequ(g.size()-1)+" to "+i+" det: "+ dfs2.det(i)+" fin: "+dfs2.fin(i));
         }
         for(int i=0;i< g.size();i++){
-            System.out.println("Abschluss "+i+" "+dfs2.sequ(i));
+            System.out.println("Abschluss "+i+" "+dfs2.sequ(i)+" "+dfs2.fin(dfs2.sequ(i)));
         }
 
         DFS dfs3=new DFSImpl();
@@ -144,29 +144,19 @@ public class DFSImpl implements DFS{
     }
 
     private int gruppenNr;
-    private ArrayList<ArrayList<Integer>> gruppen;
-    private boolean nextGNr;
+    private int[] gruppen;
     //Die eigentliche SCCImpl verwendet aber DFS also ist es hier praktischer
-    public ArrayList<ArrayList<Integer>> computeSCC(Graph g){
+    public int[] computeSCC(Graph g,DFSImpl d){
         this.g=g;
-        DFS d=new DFSImpl();
-        d.search(g);
+        //DFS d=new DFSImpl();
+        //d.search(g);
         searchinit();
-        nextGNr=false;
-        gruppenNr=0;
-        gruppen=new ArrayList<>();
-        gruppen.add(new ArrayList<>());
+        gruppenNr=1;
+        gruppen=new int[g.size()];
         for(int i=g.size()-1;i>=0;i--){
             fahreKnoten_gruppen(d.sequ(i));
-            if(nextGNr){
-                gruppenNr++;
-                gruppen.add(new ArrayList<>());
-                nextGNr=false;
-            }
-
+            gruppenNr++;
         }
-
-
         return gruppen;
     }
 
@@ -174,10 +164,9 @@ public class DFSImpl implements DFS{
         if(visited[v]>=0){
             return;
         }
-        nextGNr=true;
         visited[v]=0;//grau
         entdeckung[v]=count;
-        gruppen.get(gruppenNr).add(v);
+        gruppen[v]=gruppenNr;
         count++;
         for(int i=0;i<g.deg(v);i++){
             fahreKnoten_gruppen(g.succ(v,i));

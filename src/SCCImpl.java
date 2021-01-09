@@ -64,7 +64,7 @@ public class SCCImpl implements SCC{
         DFSImpl dfs_=new DFSImpl();
         dfs_.search(g);
         DFSImpl dfs=new DFSImpl();
-        dfs.computeSCC(g);
+        gruppen=dfs.computeSCC(g,dfs_);
         /*ArrayList<ArrayList<Integer>> gruppenN=new DFSImpl().computeSCC(g);
         ArrayList<ArrayList<Integer>> gruppenT=new DFSImpl().computeSCC(g.transpose());
 
