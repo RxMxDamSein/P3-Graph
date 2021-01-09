@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DFSImpl implements DFS{
@@ -143,19 +144,29 @@ public class DFSImpl implements DFS{
     }
 
     private int gruppenNr;
-    private int[] gruppen;
+    private ArrayList<ArrayList<Integer>> gruppen;
+    private boolean nextGNr;
     //Die eigentliche SCCImpl verwendet aber DFS also ist es hier praktischer
-    public int[] computeSCC(Graph g){
+    public ArrayList<ArrayList<Integer>> computeSCC(Graph g){
         this.g=g;
         DFS d=new DFSImpl();
         d.search(g);
         searchinit();
-        gruppenNr=1;
-        gruppen=new int[g.size()];
+        nextGNr=false;
+        gruppenNr=0;
+        gruppen=new ArrayList<>();
+        gruppen.add(new ArrayList<>());
         for(int i=g.size()-1;i>=0;i--){
             fahreKnoten_gruppen(d.sequ(i));
-            gruppenNr++;
+            if(nextGNr){
+                gruppenNr++;
+                gruppen.add(new ArrayList<>());
+                nextGNr=false;
+            }
+
         }
+
+
         return gruppen;
     }
 
@@ -163,9 +174,10 @@ public class DFSImpl implements DFS{
         if(visited[v]>=0){
             return;
         }
+        nextGNr=true;
         visited[v]=0;//grau
         entdeckung[v]=count;
-        gruppen[v]=gruppenNr;
+        gruppen.get(gruppenNr).add(v);
         count++;
         for(int i=0;i<g.deg(v);i++){
             fahreKnoten_gruppen(g.succ(v,i));

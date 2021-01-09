@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class SCCImpl implements SCC{
 
     public static void main(String[] args) {
@@ -59,7 +61,22 @@ public class SCCImpl implements SCC{
     private int[] gruppen;
     @Override
     public void compute(Graph g) {
-        gruppen=new DFSImpl().computeSCC(g);
+        DFSImpl dfs_=new DFSImpl();
+        dfs_.search(g);
+        DFSImpl dfs=new DFSImpl();
+        dfs.computeSCC(g);
+        /*ArrayList<ArrayList<Integer>> gruppenN=new DFSImpl().computeSCC(g);
+        ArrayList<ArrayList<Integer>> gruppenT=new DFSImpl().computeSCC(g.transpose());
+
+        int[]countGNr=new int[(gruppenT[0]>gruppenN[0])?gruppenT[0]:gruppenN[0]];
+        int curG=Integer.MIN_VALUE;
+        for(int i=0;i<gruppenN.length;i++){
+            if(curG!=gruppenN[i]){
+                curG=gruppenN[i];
+            }
+            //countGNr.get(i)
+        }
+        gruppen=gruppenN;*/
     }
 
     @Override

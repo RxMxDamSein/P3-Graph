@@ -1,6 +1,28 @@
 import java.util.ArrayList;
 
 public class GraphImpl implements Graph{
+
+    public static void main(String[] args) {
+        Graph g3=new GraphImpl(new int[][]{
+                {},         //0
+                {0,7,2},    //1
+                {5},        //2
+                {},         //3
+                {3},        //4
+                {4},        //5
+                {1},        //6
+                {6},        //7
+                {9},        //8
+                {},         //9
+                {},         //10
+                {10},       //11
+                {10},       //12
+                {10}        //13
+        });
+        ZusatzMain.printGraph((GraphImpl) g3);
+        new SCCImpl().compute(g3);
+        ZusatzMain.printGraph((GraphImpl) g3.transpose());
+    }
     protected int[][] graph;
     public GraphImpl(int[][] ints) {
         graph = ints;
