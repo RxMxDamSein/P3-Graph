@@ -1,4 +1,6 @@
 public class SPImpl implements SP{
+    // Resultatwert true genau dann, wenn es im Graphen keinen vom
+    // Startknoten aus erreichbaren Zyklus mit negativem Gewicht gibt.
     @Override
     public boolean bellmanFord(WeightedGraph g, int s) {
         return false;
