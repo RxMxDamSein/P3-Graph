@@ -114,6 +114,33 @@ public class SPImpl implements SP{
             System.out.println("v"+i+" dist: "+sp.dist(i)+" parent: "+sp.pred(i));
         }//passt für 0&1
         System.out.println();
+
+        w = new WeightedGraphImpl(new int[][] {
+                //SABCDE
+                //012345
+                {5,1},
+                {3},
+                {1},
+                {2},
+                {1,3},
+                {4}},
+                new double[][] {
+                        {8,10},
+                        {2},
+                        {1},
+                        {-2},
+                        {-4,-1},
+                        {1}});
+        sp=new SPImpl();
+        if(algo==0){
+            System.out.println("kein negativ Zyklus? : "+sp.bellmanFord(w,0));
+        }else if(algo==1){
+            sp.dijkstra(w,0);
+        }
+        for(int i=0;i<w.size();i++){
+            System.out.println("v"+i+" dist: "+sp.dist(i)+" parent: "+sp.pred(i));
+        }//passt für 0&1
+        System.out.println();
     }
 
     private double distanz[];
@@ -130,12 +157,12 @@ public class SPImpl implements SP{
         }
         distanz[s]=0;
         for(int i=0;i<g.size()-1;i++){
-            for(int v=0;v<g.size();v++){
-                for(int u=0;u<g.deg(v);u++){
-                    int z=g.succ(v,u);
-                    if((distanz[z]+g.weight(v,u))<distanz[v]){
-                        distanz[v]=distanz[z]+g.weight(v,u);
-                        parent[v]=z;
+            for(int u=0;u<g.size();u++){
+                for(int v=0;v<g.deg(u);v++){
+                    int z=g.succ(u,v);
+                    if((distanz[u]+g.weight(u,v))<distanz[z]){
+                        distanz[z]=distanz[u]+g.weight(u,v);
+                        parent[z]=u;
                     }
                 }
             }
