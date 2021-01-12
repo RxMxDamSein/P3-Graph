@@ -1,4 +1,5 @@
 
+import javax.xml.stream.FactoryConfigurationError;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -145,6 +146,7 @@ public class DFSImpl implements DFS{
 
     private int gruppenNr;
     private int[] gruppen;
+    private boolean nextNR;
     //Die eigentliche SCCImpl verwendet aber DFS also ist es hier praktischer
     public int[] computeSCC(Graph g,DFSImpl d){
         this.g=g;
@@ -152,10 +154,15 @@ public class DFSImpl implements DFS{
         //d.search(g);
         searchinit();
         gruppenNr=1;
+        nextNR= false;
         gruppen=new int[g.size()];
         for(int i=g.size()-1;i>=0;i--){
+            if(nextNR){
+                gruppenNr++;
+                nextNR=false;
+            }
             fahreKnoten_gruppen(d.sequ(i));
-            gruppenNr++;
+
         }
         return gruppen;
     }
@@ -164,6 +171,7 @@ public class DFSImpl implements DFS{
         if(visited[v]>=0){
             return;
         }
+        nextNR=true;
         visited[v]=0;//grau
         entdeckung[v]=count;
         gruppen[v]=gruppenNr;

@@ -56,6 +56,25 @@ public class SCCImpl implements SCC{
         for(int i=0;i< g3.size();i++){
             System.out.println("Knoten "+i+" ist in Zusammenhangskomponente "+scc.component(i));
         }
+        System.out.println();
+
+        Graph g4=new GraphImpl(new int[][]{
+                //ABCDEFG
+                //0123456
+                {4},         //0
+                {0,1},    //1
+                {6},        //2
+                {2,0},         //3
+                {6,3},        //4
+                {0,3,4},        //5
+                {6,2}        //6
+        });
+        scc=new SCCImpl();
+        scc.compute(g4);
+        for(int i=0;i< g4.size();i++){
+            System.out.println("Knoten "+i+" ist in Zusammenhangskomponente "+scc.component(i));
+        }
+        System.out.println();
     }
 
     private int[] gruppen;
@@ -64,7 +83,8 @@ public class SCCImpl implements SCC{
         DFSImpl dfs_=new DFSImpl();
         dfs_.search(g);
         DFSImpl dfs=new DFSImpl();
-        gruppen=dfs.computeSCC(g,dfs_);
+        gruppen=dfs.computeSCC(g.transpose(),dfs_);
+        //dfs.search();
         /*ArrayList<ArrayList<Integer>> gruppenN=new DFSImpl().computeSCC(g);
         ArrayList<ArrayList<Integer>> gruppenT=new DFSImpl().computeSCC(g.transpose());
 
