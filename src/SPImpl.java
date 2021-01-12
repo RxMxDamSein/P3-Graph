@@ -1,7 +1,7 @@
 public class SPImpl implements SP{
 
     public static void main(String[] args) {
-        int algo=1;
+        int algo=0;
         WeightedGraphImpl w = new WeightedGraphImpl(new int[][] {
                 {1,4,5},
                 {0,2,3,4,5},
@@ -26,7 +26,7 @@ public class SPImpl implements SP{
 
         for(int i=0;i<w.size();i++){
             System.out.println("v"+i+" dist: "+sp.dist(i)+" parent: "+sp.pred(i));
-        }//passt für 0
+        }//passt für 0&1
         System.out.println();
 
         w = new WeightedGraphImpl(new int[][] {
@@ -66,12 +66,12 @@ public class SPImpl implements SP{
         }
         for(int i=0;i<w.size();i++){
             System.out.println("v"+i+" dist: "+sp.dist(i)+" parent: "+sp.pred(i));
-        }//passt für 0
+        }//passt für 0&1
         System.out.println();
 
         w = new WeightedGraphImpl(new int[][] {
                 {},
-                {0},},
+                {0}},
                 new double[][] {
                         {},
                         {-0.5}});
@@ -84,6 +84,36 @@ public class SPImpl implements SP{
         for(int i=0;i<w.size();i++){
             System.out.println("v"+i+" dist: "+sp.dist(i)+" parent: "+sp.pred(i));
         }
+        System.out.println();
+
+        w = new WeightedGraphImpl(new int[][] {
+                {1,2},
+                {6,5,3,0},
+                {0,4},
+                {7,1},
+                {2,6},
+                {1},
+                {1,4},
+                {3}},
+                new double[][] {
+                        {7,6},
+                        {3,7,1,7},
+                        {6,4},
+                        {6,1},
+                        {4,7},
+                        {7},
+                        {3,7},
+                        {6}});
+        sp=new SPImpl();
+        if(algo==0){
+            System.out.println("kein negativ Zyklus? : "+sp.bellmanFord(w,0));
+        }else if(algo==1){
+            sp.dijkstra(w,0);
+        }
+        for(int i=0;i<w.size();i++){
+            System.out.println("v"+i+" dist: "+sp.dist(i)+" parent: "+sp.pred(i));
+        }//passt für 0&1
+        System.out.println();
     }
 
     private double distanz[];
@@ -141,10 +171,10 @@ public class SPImpl implements SP{
             for(int i=0;i<g.deg(u);i++){
                 int v=g.succ(u,i);
                 if(binHeap.contains(entrys[v])){
-                    if((distanz[v]+g.weight(u,i))<distanz[u]){
-                        distanz[u]=distanz[v]+g.weight(u,i);
-                        parent[u]=v;
-                        binHeap.changePrio(entrys[u],distanz[u]);
+                    if((distanz[u]+g.weight(u,i))<distanz[v]){
+                        distanz[v]=distanz[u]+g.weight(u,i);
+                        parent[v]=u;
+                        binHeap.changePrio(entrys[v],distanz[v]);
                     }
                 }
             }
