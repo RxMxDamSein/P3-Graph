@@ -1,7 +1,7 @@
 public class SPImpl implements SP{
 
     public static void main(String[] args) {
-        int algo=0;
+        int algo=1;
         WeightedGraphImpl w = new WeightedGraphImpl(new int[][] {
                 {1,4,5},
                 {0,2,3,4,5},
@@ -168,10 +168,10 @@ public class SPImpl implements SP{
             }
         }
 
-        for(int v=0;v<g.size();v++){
-            for(int i=0;i<g.deg(v);i++){
-                int u=g.succ(v,i);
-                if(distanz[u]+g.weight(v,i)<distanz[v]){
+        for(int u=0;u<g.size();u++){
+            for(int v=0;v<g.deg(u);v++){
+                int z=g.succ(u,v);
+                if(distanz[u]+g.weight(u,v)<distanz[z]){
                     return false;
                 }
             }
