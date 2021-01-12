@@ -52,7 +52,32 @@ public class MSFImpl implements MSF{
                 System.out.println(i+" <- "+msf.pred(i));
             }
         }
-
+        w = new WeightedGraphImpl(new int[][] {
+                //ABCDEFG
+                //0123456
+                {1,2,3},
+                {0,2,4},
+                {5,4,1,0},
+                {0,5},
+                {5,2,1},
+                {2,3,4,6},
+                {5}},
+                new double[][] {
+                        {2,3,3},
+                        {2,4,3},
+                        {6,1,4,3},
+                        {3,7},
+                        {8,1,3},
+                        {6,7,8,9},
+                        {9}});
+        msf=new MSFImpl();
+        for(int s=0;s<w.size() && s<1;s++){//works
+            msf.compute(w,s);
+            System.out.println("gestartet mit: "+s);
+            for(int i=0;i<w.size();i++){
+                System.out.println(i+" <- "+msf.pred(i));
+            }
+        }
 
     }
 
